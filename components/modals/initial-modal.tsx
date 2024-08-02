@@ -21,6 +21,8 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required." }),
@@ -30,6 +32,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 const InitialModal = () => {
+  const router = useRouter();
   const form = useForm<FormType>({
     defaultValues: {
       name: "",
@@ -41,7 +44,14 @@ const InitialModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: FormType) => {
-    console.log({ values });
+    try {
+      await axios.post("/api/servers", values);
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

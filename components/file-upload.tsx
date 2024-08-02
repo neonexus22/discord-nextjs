@@ -16,7 +16,7 @@ const FileUpload = ({ value, endPoint, onChange }: Props) => {
   const fileType = value?.split(".").pop();
   if (value && fileType !== "pdf") {
     return (
-      <div className="relative h-20 w-20">
+      <div className="relative h-30 w-30">
         <Image fill src={value} alt="Upload" className="rounded-full" />
         <button
           type="button"
