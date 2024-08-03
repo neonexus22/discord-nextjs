@@ -9,12 +9,29 @@ import { useModal } from "@/hooks/use-modal-store";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Copy, RefreshCw } from "lucide-react";
+import { Check, Copy, RefreshCw } from "lucide-react";
+import { useOrigin } from "@/hooks/use-origin";
+import { useState } from "react";
 
 const InviteModal = () => {
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
+  const origin = useOrigin();
 
   const isModalOpen = isOpen && type === "invite";
+  const { server } = data;
+
+  const [copied, setCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(inviteUrl);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -31,10 +48,14 @@ const InviteModal = () => {
           <div className="flex items-center mt-2 gap-x-2">
             <Input
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-              value="invite-link"
+              value={inviteUrl}
             />
-            <Button size="icon">
-              <Copy className="size-4" />
+            <Button size="icon" onClick={onCopy}>
+              {copied ? (
+                <Check className="size-4" />
+              ) : (
+                <Copy className="size-4" />
+              )}
             </Button>
           </div>
           <Button
