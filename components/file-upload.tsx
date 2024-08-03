@@ -4,7 +4,7 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import { X } from "lucide-react";
 import Image from "next/image";
 
-import "@uploadthing/react/styles.css";
+// import "@uploadthing/react/styles.css";
 
 type Props = {
   value: string;
