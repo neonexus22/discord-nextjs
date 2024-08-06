@@ -32,6 +32,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import { ChannelType } from "@prisma/client";
 import qs from "query-string";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z
@@ -48,9 +49,10 @@ type FormType = z.infer<typeof formSchema>;
 const CreateChannelModal = () => {
   const router = useRouter();
   const params = useParams();
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
 
   const isModalOpen = isOpen && type === "createChannel";
+  const { channelType } = data;
 
   const form = useForm<FormType>({
     defaultValues: {
@@ -61,6 +63,14 @@ const CreateChannelModal = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [channelType, form]);
 
   const onSubmit = async (values: FormType) => {
     try {
