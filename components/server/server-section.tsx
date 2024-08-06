@@ -37,6 +37,7 @@ const ServerSection = ({
           </button>
         </ActionTooltip>
       )}
+      {/* for members type channel add settings icon to manage members */}
       {role === MemberRole.ADMIN && sectionType === "members" && (
         <ActionTooltip label="Manage Members" side="top">
           <button
