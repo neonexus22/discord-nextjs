@@ -71,7 +71,7 @@ const ChatMessages = ({
   }
 
   return (
-    <div className="flex h-full flex-col py-4 overflow-y-auto">
+    <div className="flex h-full flex-col py-4">
       <div className="flex-1" />
       <ChatWelcome type={type} name={name} />
       <div className="flex flex-col-reverse mt-auto">

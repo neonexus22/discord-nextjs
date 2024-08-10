@@ -40,7 +40,7 @@ const ChannelIdPage = async ({ params }: Props) => {
         serverId={channel.serverId}
         type="channel"
       />
-      <div className="flex-1">
+      <div className="flex-1 overflow-y-auto">
         <ChatMessages
           name={channel.name}
           member={member}
